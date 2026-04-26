@@ -9,7 +9,6 @@ Luego abre http://127.0.0.1:8050 en el navegador.
 """
 
 import os
-
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
