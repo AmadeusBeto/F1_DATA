@@ -1,1 +1,31 @@
-01_TELEMETRY_F1\data\cache
+# Entorno virtual
+f1_env/
+.venv/
+env/
+
+# FastF1 cache (pesa mucho)
+**/data/cache/
+
+# Datasets generados (se regeneran con prepare_data_set.py).
+# Los CSV de Abu Dhabi 2021 ya trackeados no se ven afectados: ignore solo
+# aplica a archivos nuevos.
+data/*.csv
+01_TELEMETRY_F1/data/*.csv
+01_TELEMETRY_F1/data/*.meta.json
+
+# Reportes exportados desde el dashboard
+**/reports/*.html
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
