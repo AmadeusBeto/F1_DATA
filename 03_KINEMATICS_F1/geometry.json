@@ -1,0 +1,29 @@
+{
+  "_readme": "Parámetros del modelo quarter-car. TODOS los valores son placeholders plausibles de F1 2026: cuando termines el diseño mecánico en 02_SUSPENSION_F1, reemplázalos midiendo el CAD y pon 'estimated': false. El pipeline funciona igual con cualquier valor.",
+
+  "car": {
+    "mass_total_kg": 768.0,
+    "_mass": "Masa mínima FIA 2026 con piloto (Art. 4.1). Ajusta si añades combustible.",
+    "weight_dist_front": 0.46,
+    "cg_height_m": 0.30,
+    "wheelbase_m": 3.40,
+    "track_front_m": 1.90,
+    "downforce_front_N_per_ms2": 1.5,
+    "_downforce": "Carga aero del eje delantero = coef * v^2 (v en m/s). 1.5 da ~7.2 kN a 250 km/h, orden de magnitud F1. Calibrable contra datos reales.",
+    "lat_transfer_front_share": 0.5,
+    "_lat_share": "Fracción de la transferencia lateral que absorbe el eje delantero (depende de rigideces a rodadura relativas).",
+    "estimated": true
+  },
+
+  "front_corner": {
+    "unsprung_mass_kg": 35.0,
+    "motion_ratio": 1.4,
+    "_motion_ratio": "MR = recorrido de rueda / recorrido de muelle. Mídelo en CATIA: desplaza la rueda 10 mm en Z y mide cuánto se comprime el muelle a través del rocker. Si el rocker no es lineal, usa el valor alrededor de la posición estática.",
+    "spring_rate_N_per_mm": 180.0,
+    "damper_coeff_Ns_per_mm": 6.0,
+    "tire_vertical_stiffness_N_per_mm": 350.0,
+    "sensor_measures": "spring",
+    "_sensor": "'spring' si el canal SuspTravel es el potenciómetro del amortiguador (caso ACTI/MoTeC), 'wheel' si ya está convertido a recorrido de rueda.",
+    "estimated": true
+  }
+}
