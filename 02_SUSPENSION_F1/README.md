@@ -55,20 +55,20 @@ f1-front-suspension-2026/
 
 Full detail in [`COMPLIANCE.md`](./COMPLIANCE.md). Summary of key constraints:
 
-│ Article │ Constraint │ Status │
-│---------│------------│--------│ 
-│ 10.2.1  │ Car must fitted with sprung suspension │ Pending CAD │
-│ 10.2.2  │ Front and rear axles must be independent │ Peding CAD │
-│ 10.2.4  │ No powered device may alter suspension configuration │ By design │
-│ 10.2..6 │ Suspension state uniquely define by rocker angular position │ Pending CAD │
-│ 10.3.2  │ 6 suspension members per upright, no redundant members │ Pending CAD │
-│ 10.2.4  │ Outboard attachments outboard of YW=0, above ZW=100 │ Pending CAD │
-│ 10.3.5  │ Front axle: 2 independent pairs, inboard attachments separated ≥300 mm in X │ Pending CAD │
-│ 10.3.6  │ Member cross-section symmetric, constant, cenotroid ≤5 mm from load line │ Pending CAD │
-│ 10.3.7  │ Steering lock min +23°/−21° from X-plane | Pending CAD |
-│ 10.3.8  │ Wheel tethers must be fitted (Art. 14.4.1) │ Pending CAD │
-│ 10.4.1  │ Inboard suspension actuated via single rocker per wheel only │ CAD Pending │
-│ 10.3.2  │ Only springs and dampers permitted as suspension elements │ Pending CAD │
+| Article | Constraint | Status |
+|----------|------------|--------|
+| 10.2.1 | Car must be fitted with sprung suspension | Pending CAD |
+| 10.2.2 | Front and rear axles must be independent | Pending CAD |
+| 10.2.4 | No powered device may alter suspension configuration | By design |
+| 10.2.6 | Suspension state uniquely defined by rocker angular position | Pending CAD |
+| 10.3.2 | Six suspension members per upright, no redundant members | Pending CAD |
+| 10.3.4 | Outboard attachments outboard of YW=0, above ZW=100 | Pending CAD |
+| 10.3.5 | Front axle: two independent pairs, inboard attachments separated ≥300 mm in X | Pending CAD |
+| 10.3.6 | Member cross-section symmetric, constant, centroid ≤5 mm from load line | Pending CAD |
+| 10.3.7 | Steering lock minimum +23°/−21° from X-plane | Pending CAD |
+| 10.3.8 | Wheel tethers must be fitted (Art. 14.4.1) | Pending CAD |
+| 10.4.1 | Inboard suspension actuated via a single rocker per wheel only | Pending CAD |
+| 10.2.4 | Only springs and dampers permitted as suspension elements | Pending CAD |
 
 ---
 
