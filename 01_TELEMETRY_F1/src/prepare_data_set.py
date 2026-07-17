@@ -1,105 +1,62 @@
-import fastf1
-import pandas as pd 
-import numpy as np
+"""
+CLI para descargar y preparar datasets de F1 (FastF1) en formato canónico.
+
+Ejemplos:
+    # Comportamiento clásico del proyecto (Abu Dhabi 2021, HAM vs VER):
+    python prepare_data_set.py
+
+    # Cualquier otra sesión / pilotos:
+    python prepare_data_set.py --year 2024 --gp Monza --session Q --drivers LEC NOR
+    python prepare_data_set.py --year 2025 --gp "Sao Paulo" --session R --drivers VER NOR PIA
+
+    # Ver el calendario de un año (para saber los nombres de GP):
+    python prepare_data_set.py --list-events 2025
+
+El resultado (<gp>_<año>_comparison.csv + .meta.json) aparece automáticamente
+en el dropdown del dashboard.
+"""
+
+from __future__ import annotations
+
+import argparse
 import os
+import sys
 
-# Habilitar cache
-fastf1.Cache.enable_cache('../data/cache')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
 
-# Configuración
-YEAR = 2021
-GP = 'Abu Dhabi'
-SESSION_TYPE = 'Q'
-PILOTS = ['HAM', 'VER']
+from f1core.download import download_comparison, list_available_events  # noqa: E402
 
-# Descargar sesión
-session = fastf1.get_session(YEAR, GP, SESSION_TYPE)
-session.load()
 
-# Asegurar que existe la carpeta data
-os.makedirs('../data', exist_ok=True)
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Descarga telemetría F1 y genera un dataset canónico.")
+    parser.add_argument("--year", type=int, default=2021, help="Temporada")
+    parser.add_argument("--gp", type=str, default="Abu Dhabi",
+                        help="Nombre del GP (o número de ronda)")
+    parser.add_argument("--session", type=str, default="Q",
+                        help="FP1/FP2/FP3/Q/SQ/S/R")
+    parser.add_argument("--drivers", nargs="+", default=["HAM", "VER"],
+                        help="Códigos de piloto (HAM VER LEC ...)")
+    parser.add_argument("--points", type=int, default=1000,
+                        help="Puntos de la malla de alineación")
+    parser.add_argument("--list-events", type=int, metavar="YEAR",
+                        help="Muestra el calendario del año y sale")
+    args = parser.parse_args()
 
-# Guardar datos de pilotos
-for driver in PILOTS:
-    try:
-        lap = session.laps.pick_driver(driver).pick_fastest()
-        telemetry = lap.get_car_data().add_distance()
-        
-        # Normalización
-        telemetry['LapDistanceNorm'] = telemetry['Distance'] / telemetry['Distance'].max()
-        telemetry["Source"] = driver
-        
-        # **CONVERTIR TIME A SEGUNDOS**
-        telemetry['Time_seconds'] = telemetry['Time'].dt.total_seconds()
-        
-        output_path = f"../data/{GP.lower().replace(' ', '_')}_{YEAR}_{driver.lower()}.csv"
-        
-        # Guardar solo columnas necesarias
-        columns_to_save = ['LapDistanceNorm', 'Speed', 'Throttle', 'Brake', 'Time_seconds', 'Source']
-        telemetry[columns_to_save].to_csv(output_path, index=False)
-        
-        print(f"✅ Guardado: {output_path}")
-        print(f"   Tiempo total: {telemetry['Time_seconds'].max():.2f} segundos")
-        
-    except Exception as e:
-        print(f"❌ Error con {driver}: {e}")
+    if args.list_events:
+        print(list_available_events(args.list_events).to_string(index=False))
+        return
 
-# Combinar datasets
-dfs = []
-for driver in PILOTS:
-    try:
-        file_path = f"../data/{GP.lower().replace(' ', '_')}_{YEAR}_{driver.lower()}.csv"
-        df = pd.read_csv(file_path)
-        dfs.append(df)
-        print(f"📂 Cargado: {file_path}")
-    except FileNotFoundError:
-        print(f"❌ Archivo no encontrado: {file_path}")
-
-if not dfs:
-    print("❌ No se pudieron cargar datos. Saliendo...")
-    exit()
-
-# Crear rango normalizado
-normalized_range = np.linspace(0, 1, 1000)
-aligned_dfs = []
-
-for df in dfs:
-    try:
-        interp_df = pd.DataFrame({
-            'LapDistanceNorm': normalized_range,
-            'Speed': np.interp(normalized_range, df['LapDistanceNorm'], df['Speed']),
-            'Throttle': np.interp(normalized_range, df['LapDistanceNorm'], df['Throttle']),
-            'Brake': np.interp(normalized_range, df['LapDistanceNorm'], df['Brake']),
-            'Time_seconds': np.interp(normalized_range, df['LapDistanceNorm'], df['Time_seconds']),
-            'Source': df['Source'].iloc[0]
-        })
-        aligned_dfs.append(interp_df)
-        
-    except Exception as e:
-        print(f"❌ Error interpolando datos de {df['Source'].iloc[0]}: {e}")
-
-# Combinar todos los datos
-if aligned_dfs:
-    combined = pd.concat(aligned_dfs, ignore_index=True)
-    
-    # **CALCULAR TIEMPO RELATIVO ENTRE PILOTOS**
-    combined['Time_from_start'] = combined.groupby('Source')['Time_seconds'].transform(
-        lambda x: x - x.min()
+    download_comparison(
+        year=args.year,
+        gp=args.gp,
+        session_type=args.session,
+        drivers=args.drivers,
+        n_points=args.points,
     )
-    
-    output_file = f"../data/{GP.lower().replace(' ', '_')}_{YEAR}_comparison.csv"
-    combined.to_csv(output_file, index=False)
-    
-    print(f"✅ Dataset combinado creado: {output_file}")
-    print(f"📊 Pilotos incluidos: {combined['Source'].unique()}")
-    print(f"📈 Total de puntos: {len(combined)}")
-    
-    # Mostrar estadísticas básicas
-    print("\n📋 Estadísticas por piloto:")
-    for driver in combined['Source'].unique():
-        driver_data = combined[combined['Source'] == driver]
-        lap_time = driver_data['Time_seconds'].max() - driver_data['Time_seconds'].min()
-        print(f"   {driver}: Tiempo vuelta = {lap_time:.3f}s, Velocidad max = {driver_data['Speed'].max():.1f} km/h")
-        
-else:
-    print("❌ No se pudieron crear datos alineados")
+    print("\nListo. Arranca el dashboard con: python dashboard.py")
+
+
+if __name__ == "__main__":
+    main()

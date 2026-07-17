@@ -1,0 +1,9 @@
+{
+  "title": "DEMO sintética — prueba de pipeline (NO son datos reales)",
+  "source_type": "custom",
+  "synthetic": true,
+  "expected": {
+    "r": "≈0.99",
+    "gain": "≈1.15"
+  }
+}

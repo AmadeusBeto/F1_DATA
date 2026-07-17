@@ -1,0 +1,72 @@
+# F1_DATA – Telemetría Abu Dabi 2021
+
+Comparativa interactiva de la vuelta clasificatoria más rápida de
+**Lewis Hamilton (Mercedes)** vs **Max Verstappen (Red Bull)** en el Gran Premio de Abu Dabi 2021.
+
+---
+
+## Estructura del proyecto
+
+```
+01_TELEMETRY_F1/
+├── data/
+│   ├── abu_dhabi_2021_ham.csv          ← Telemetría de Hamilton
+│   ├── abu_dhabi_2021_ver.csv          ← Telemetría de Verstappen
+│   └── abu_dhabi_2021_comparison.csv   ← Dataset alineado (1 000 puntos por piloto)
+├── notebooks/
+│   ├── 01_visualizacion_validacion.ipynb
+│   └── 02_telemetry_preprocessing.ipynb
+└── src/
+    ├── prepare_data_set.py   ← Descarga y procesa datos con FastF1
+    └── dashboard.py          ← Dashboard interactivo con Dash / Plotly
+```
+
+---
+
+## Instalación
+
+```bash
+python -m venv f1_env
+
+# Windows
+.\f1_env\Scripts\activate
+# Linux / macOS
+source f1_env/bin/activate
+
+pip install -r requirements.txt
+```
+
+---
+
+## Ejecutar el dashboard
+
+```bash
+cd 01_TELEMETRY_F1/src
+python dashboard.py
+```
+
+Abre tu navegador en **http://127.0.0.1:8050**
+
+### Vistas disponibles
+
+| Vista | Descripción |
+|---|---|
+| **Velocidad** | Traza de velocidad (km/h) a lo largo de la vuelta normalizada |
+| **Acelerador** | Posición del acelerador (%) de ambos pilotos |
+| **Frenos** | Uso de frenos a lo largo de la vuelta |
+| **Delta de tiempo** | Diferencia acumulada de tiempo entre Hamilton y Verstappen |
+| **Vista completa** | Todos los gráficos a la vez (por defecto) |
+
+---
+
+## Regenerar los datos (opcional)
+
+Si quieres volver a descargar la telemetría oficial desde la API de FastF1:
+
+```bash
+pip install fastf1
+cd 01_TELEMETRY_F1/src
+python prepare_data_set.py
+```
+
+Los CSV se guardarán en `../data/`.

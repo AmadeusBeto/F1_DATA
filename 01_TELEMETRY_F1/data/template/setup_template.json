@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "setup_id": "example_baseline_v1",
+    "car": "Ejemplo GT3",
+    "sim": "assetto_corsa",
+    "track": "spa",
+    "date": "2026-07-07",
+    "author": "Roberto",
+    "notes": "Setup base. Cambiar solo un parametro por sesion para poder atribuir el efecto en telemetria."
+  },
+  "aero": {
+    "front_wing": 4,
+    "rear_wing": 7,
+    "ride_height_front_mm": 55,
+    "ride_height_rear_mm": 70
+  },
+  "suspension": {
+    "spring_rate_front_nmm": 145,
+    "spring_rate_rear_nmm": 130,
+    "arb_front": 5,
+    "arb_rear": 3,
+    "damper_bump_front": 8,
+    "damper_bump_rear": 7,
+    "damper_rebound_front": 10,
+    "damper_rebound_rear": 9,
+    "camber_front_deg": -3.2,
+    "camber_rear_deg": -2.0,
+    "toe_front_deg": -0.05,
+    "toe_rear_deg": 0.15
+  },
+  "tyres": {
+    "compound": "medium",
+    "pressure_fl_psi": 26.5,
+    "pressure_fr_psi": 26.5,
+    "pressure_rl_psi": 26.0,
+    "pressure_rr_psi": 26.0
+  },
+  "brakes": {
+    "bias_front_pct": 56.0,
+    "duct_front": 3,
+    "duct_rear": 2
+  },
+  "differential": {
+    "power_pct": 45,
+    "coast_pct": 30,
+    "preload_nm": 80
+  },
+  "gearing": {
+    "final_drive": 3.88,
+    "ratios": [2.92, 2.19, 1.78, 1.5, 1.29, 1.13, 1.0]
+  },
+  "fuel": {
+    "start_kg": 45,
+    "consumption_kg_lap": 2.6
+  }
+}

@@ -3,5 +3,5 @@ dash
 plotly
 pandas
 numpy
-scip
+scipy
 matplotlib
