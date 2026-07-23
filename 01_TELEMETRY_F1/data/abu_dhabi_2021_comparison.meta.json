@@ -1,0 +1,17 @@
+{
+  "title": "Abu Dhabi 2021 · Clasificación",
+  "source_type": "fastf1",
+  "year": 2021,
+  "event": "Abu Dhabi",
+  "session": "Q",
+  "sources": [
+    "HAM",
+    "VER"
+  ],
+  "lap_times_s": {
+    "HAM": 82.48,
+    "VER": 82.109
+  },
+  "n_points": 1000,
+  "setup_id": null
+}
