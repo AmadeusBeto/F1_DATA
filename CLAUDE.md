@@ -58,9 +58,8 @@ python -c "import sys; sys.path.insert(0,'.'); from f1core import load_dataset; 
 
 ## Estado y pendientes
 
-- El dataset `abu_dhabi_2021_comparison.csv` original no tiene X/Y; hay que
-  regenerarlo una vez para habilitar el mapa de dominancia:
-  `python prepare_data_set.py --year 2021 --gp "Abu Dhabi" --session Q --drivers HAM VER`
+- Dataset `abu_dhabi_2021_comparison.csv` regenerado con X/Y (2026-07-22,
+  rama `feature/telemetry`) — el mapa de dominancia ya funciona.
 - Módulo `03` creado (2026-07-15): pipeline completo probado con demo
   sintética (`make_demo_data.py`, r≈0.99/gain≈1.15 esperados). Pendiente:
   (a) `geometry.json` tiene valores ESTIMADOS — medir el CAD de 02 cuando
